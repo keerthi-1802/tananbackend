@@ -1,5 +1,7 @@
 import express from "express";
-import galleryUpload from "../middleware/galleryUpload.js";
+import galleryUpload, {
+    compressGalleryImages,
+} from "../middleware/galleryUpload.js";
 
 import {
     createGallery,
@@ -13,35 +15,22 @@ const router = express.Router();
 
 router.post(
     "/",
-    galleryUpload.array(
-        "images",
-        500
-    ),
+    galleryUpload.array("images", 500),
+    compressGalleryImages,
     createGallery
 );
 
-router.get(
-    "/",
-    getGalleries
-);
+router.get("/", getGalleries);
 
-router.get(
-    "/:id",
-    getGallery
-);
+router.get("/:id", getGallery);
 
 router.put(
     "/:id",
-    galleryUpload.array(
-        "images",
-        500
-    ),
+    galleryUpload.array("images", 500),
+    compressGalleryImages,
     updateGallery
 );
 
-router.delete(
-    "/:id",
-    deleteGallery
-);
+router.delete("/:id", deleteGallery);
 
 export default router;

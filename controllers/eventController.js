@@ -24,21 +24,23 @@ export const getEventById = async (req, res) => {
 };
 
 export const getEvents = async (req, res) => {
-    try {
-        const events = await Event.find()
-            .populate("gallery", "title")
-            .sort({ createdAt: -1 });
+  try {
+    const events = await Event.find()
+      .populate("gallery", "title")
+      .sort({ createdAt: -1 });
 
-        res.status(200).json(events);
-    } catch (error) {
-        res.status(500).json({
-            message: error.message,
-        });
-    }
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 export const createEvent = async (req, res) => {
   try {
+    console.log(req.file);
+
     const image = req.file
       ? `${req.protocol}://${req.get("host")}/uploads/events/${req.file.filename}`
       : "";
@@ -130,9 +132,8 @@ export const deleteEvent = async (req, res) => {
     }
 
     if (event.image) {
-      const oldImage = event.image.split("/uploads/")[1];
-
-      const filePath = path.join("uploads", oldImage);
+      const pathname = new URL(event.image).pathname;
+      const filePath = path.join(process.cwd(), pathname.replace(/^\//, ""));
 
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);

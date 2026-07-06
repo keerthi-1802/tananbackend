@@ -1,5 +1,7 @@
 import express from "express";
-import upload from "../middleware/eventUpload.js";
+import upload, {
+    compressEventImage,
+} from "../middleware/eventUpload.js";
 
 import {
     getEvents,
@@ -18,12 +20,14 @@ router.get("/:id", getEventById);
 router.post(
     "/",
     upload.single("image"),
+    compressEventImage,
     createEvent
 );
 
 router.put(
     "/:id",
     upload.single("image"),
+    compressEventImage,
     updateEvent
 );
 
