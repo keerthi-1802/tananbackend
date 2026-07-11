@@ -3,6 +3,7 @@ import Theme from "../models/Theme.js";
 // GET THEME
 
 export const getTheme =
+
     async (
         req,
         res
@@ -99,3 +100,30 @@ export const updateTheme =
             });
         }
     };
+
+    // THEME HEARTBEAT
+
+export const themeHeartbeat = async (req, res) => {
+    
+    try {
+        let theme = await Theme.findOne();
+
+        if (!theme) {
+            theme = await Theme.create({
+                activeTheme: "theme1",
+            });
+        }
+
+        res.json({
+            success: true,
+            updatedAt: theme.updatedAt,
+            message: "Heartbeat Working",
+        });
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+        });
+    }
+};

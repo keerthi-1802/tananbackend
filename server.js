@@ -7,6 +7,8 @@ import eventRoutes from "./routes/eventRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import documentRoutes from "./routes/documentRoutes.js";
+import healthRoutes from "./routes/healthRoutes.js";
+
 
 import dns from "node:dns/promises";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -51,6 +53,8 @@ app.use(
     "/api/documents", 
      documentRoutes);
 
+  
+app.use("/api/health", healthRoutes);
 /* Health Check */
 
 app.get("/", (req, res) => {

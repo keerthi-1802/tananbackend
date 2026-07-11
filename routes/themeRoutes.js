@@ -3,6 +3,7 @@ import express from "express";
 import {
     getTheme,
     updateTheme,
+    themeHeartbeat,
 } from "../controllers/themeController.js";
 
 const router =
@@ -14,6 +15,10 @@ router.get(
     "/",
     getTheme
 );
+// HEARTBEAT
+router.get("/heartbeat", (req, res, next) => {
+    next();
+}, themeHeartbeat);
 
 // UPDATE
 
